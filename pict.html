@@ -1,0 +1,214 @@
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+      <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        
+        <link rel="stylesheet" href="../css/pict.css" media="all">
+        <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script> 
+        
+    </head>
+    <body id>
+        <div class="wrapper">
+        <div id="content" style="display:block; opacity:1">
+            <input type="button" id="xlsx" value="Excelファイル出力" onclick="func1()">
+        <div class="drawbox">
+            <div class="img0">
+            <img id="image_place" src="../img/img0.png"
+                 width="500" height="500" alt=""></div>
+            </div>
+     <div class="timebox">
+        <h1 class="icon" id="firstp">あなたの名前を記入してください</h1>
+        <p class="icon" id = "secondp">次に表示されるピクトグラムの名前を<br>記入してください</p>
+        <p class="icon" id = "thirdp">終わりです。<br>ありがとうございました。</p>
+        <div class="helpbox">
+        <form action="./pict.html" method="post" name="form" id="id_form1">
+        <div class="box">
+            <div class="dcontent">
+                <textarea name="contentbox"  id="dcontent" class="contentbox" rows="5" placeholder="" value=""></textarea>
+            </div>
+       <button type="button" class="submit stop" id="stop" onclick="stopWatch(1);clickBtn1();onButtonClick(1);">OK</button>
+       <button type="button" class="submit start" id="start" onclick="startWatch();changeIMG(1);clickBtn1();">次へ</button>
+            <div id="timer">00:00:00</div>
+        </div>
+        </form>
+             <div id="output"></div>
+        </div>
+         
+    </div>
+        </div>
+        </div>
+<script>
+            var status = 0; // 0:停止中 1:動作中
+            var cc=-1;
+            var c=-1;
+            var i=0;
+            var time = 0;
+            var timerLabel = document.getElementById('timer');
+            var savetime = new Array("0","0","0","0"); 
+            
+            // STARTボタン
+            function startWatch(){
+                // 動作中にする
+                status = 1;
+                timer();
+            }
+            
+            // STOPボタン
+            function stopWatch(i){
+                // 停止中にする
+                status = 0;
+                // タイムを0に戻す
+                c+=i;
+                savetime[c]=timerLabel.innerHTML;
+                time = 0;
+                // タイマーラベルをリセット
+                timerLabel.innerHTML = '00:00:00';
+            }
+            
+            function timer(){
+                // ステータスが動作中の場合のみ実行
+                if (status == 1) {
+                    setTimeout(function() {
+                        time++;
+                // 分・秒・ミリ秒を計算
+                var min = Math.floor(time/100/60);
+                var sec = Math.floor(time/100);
+                var mSec = time % 100;
+                // 分が１桁の場合は、先頭に０をつける
+                if (min < 10) min = "0" + min;
+                // 秒が６０秒以上の場合　例）89秒→29秒にする
+                if (sec >= 60) sec = sec % 60;
+                // 秒が１桁の場合は、先頭に０をつける
+                if (sec < 10) sec = "0" + sec;
+                // ミリ秒が１桁の場合は、先頭に０をつける
+                if (mSec < 10) mSec = "0" + mSec;
+                // タイマーラベルを更新
+                timerLabel.innerHTML = min + ":" + sec + ":" + mSec;
+                // 再びtimer()を呼び出す
+                timer();
+            }, 10);
+        }
+    }
+
+     var pic_src=new Array("../img/img0.png","../img/img1.png","../img/img2.png","../img/img3.png");
+     
+     var count=0;
+     
+     function changeIMG(num){
+         count += num;
+         if(count>=pic_src.length){ count=0; thirdp.style.display="block";}
+         if(count<0)count=pic_src.length-1;
+         document.getElementById("image_place").src=pic_src[count];
+         
+     }   
+var text = new Array("none","none","none","none");
+var str = [savetime,pic_src,text];
+
+//text内容のclear    
+ function onButtonClick(i) {
+          target = document.getElementById("output");
+          target.innerText = document.forms.id_form1.dcontent.value;
+          cc+=i;
+          text[cc]=target.innerText;
+        }
+  
+$(function () {
+  $("#stop").click( function() {
+    // テキストボックスのデータを空にします
+    $("#dcontent").val("");
+  });
+});
+    
+
+document.getElementById("start").style.display="none";
+document.getElementById("stop").style.display="block";
+document.getElementById("dcontent").style.display="block";
+document.getElementById("secondp").style.display="none";
+document.getElementById("thirdp").style.display="none";
+
+//OKと次へのボタンの切り替え
+function clickBtn1(){
+    const stop = document.getElementById("stop");
+    const start = document.getElementById("start");
+    const firstp = document.getElementById("firstp");
+    const secondp = document.getElementById("secondp");
+    const contentbox = document.getElementById("dcontent");
+    const thirdp = document.getElementById("thirdp");
+    
+    if(stop.style.display=="block"){
+        //noneで非表示
+        contentbox.style.display="none";
+        firstp.style.display="none";
+        stop.style.display="none";
+        start.style.display="block";
+        secondp.style.display="block";
+        start.style.background="#00bfff";
+        start.style.border="2px solid #0000ff"; document.getElementById("image_place").src="img/img0.png";
+    }
+    else{
+        //blockで表示
+        contentbox.style.display="block";
+        secondp.style.display="none";
+        stop.style.display="block";
+        start.style.display="none";
+    }
+}
+
+ //exelファイルへの出力   
+ // SheetをWorkbookに追加する
+    function sheet_to_workbook(sheet, opts){
+      var n = opts && opts.sheet ? opts.sheet : "Sheet1";
+      var sheets = {}; sheets[n] = sheet;
+      return { SheetNames: [n], Sheets: sheets };
+    }
+
+    // ArrayをWorkbookに変換する
+    function aoa_to_workbook(data, opts){
+      return sheet_to_workbook(XLSX.utils.aoa_to_sheet(data, opts), opts);
+    }
+
+    // stringをArrayBufferに変換する
+    function s2ab(s) {
+      var buf = new ArrayBuffer(s.length);
+      var view = new Uint8Array(buf);
+      for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+      }
+
+    function func1() {
+        // 出力するオブジェクト(Array)
+   
+    var pictArray =
+      [
+        ["time", "pict", "text"],
+        [savetime[0],pic_src[0],text[0]],
+        [savetime[1],pic_src[1],text[1]],
+        [savetime[2],pic_src[2],text[2]],
+        [savetime[3],pic_src[3],text[3]],
+      ];
+        
+    // 書き込み時のオプションは以下を参照
+    var write_opts = {
+      type: 'binary'
+    };
+
+    // ArrayをWorkbookに変換する
+    var wb = aoa_to_workbook(pictArray);
+    var wb_out = XLSX.write(wb, write_opts);
+
+    // WorkbookからBlobオブジェクトを生成
+    var blob = new Blob([s2ab(wb_out)], { type: 'application/octet-stream' });
+
+    // FileSaverのsaveAs関数で、xlsxファイルとしてダウンロード
+    // 参照：https://github.com/eligrey/FileSaver.js/
+    saveAs(blob, text[0]+'.xlsx');
+  }
+
+  
+</script>
+        
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.9.10/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js"></script>
+</body>
+</html>
