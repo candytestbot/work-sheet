@@ -4,14 +4,14 @@
       <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         
-        <link rel="stylesheet" href="../pictProgram/css/pict.css" media="all">
+        <link rel="stylesheet" href="../htdocs/css/pict.css" media="all">
         <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script> 
         
     </head>
     <body id>
         <div class="wrapper">
         <div id="content" style="display:block; opacity:1">
-            <input type="button" id="xlsx" value="Excelファイル出力" onclick="func1()">
+            <input type="button" id="xlsx" value="Excelファイル出力" onclick="func1()" action="save.php">
         <div class="drawbox">
             <div class="img0">
             <img id="image_place" src="img/img0.png"
@@ -32,7 +32,9 @@
             <div id="timer">00:00:00</div>
         </div>
         </form>
-             <div id="output"></div>
+             <div id="output">  <div id="name">
+  </div>
+</div>
         </div>
          
     </div>
@@ -204,7 +206,8 @@ function clickBtn1(){
     // 参照：https://github.com/eligrey/FileSaver.js/
     saveAs(blob, text[0]+'.xlsx');
   }
-
+  
+  
   
 </script>
         
