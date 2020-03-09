@@ -170,7 +170,7 @@ a {
     right: 0px;
     width: 100vw;
     height: 100vh;
-    background-color: #FFDCD9;
+    background-color: #FFF6F5;
     animation-name: fadein;
     animation-duration: 4s;
     animation-iteration-count: 1;
@@ -259,7 +259,7 @@ a {
     display: inline-block;
     width: 50px;
     height: 50px;
-    background-image: url(../img/fotter_btn01.png);
+    background-image: url(../img/sankaku.png);
     background-size: contain;
     vertical-align: middle;
 }
