@@ -170,7 +170,7 @@ a {
     right: 0px;
     width: 100vw;
     height: 100vh;
-    background-color: #FFF6F5;
+    background-color: #FFDCD9;
     animation-name: fadein;
     animation-duration: 4s;
     animation-iteration-count: 1;
@@ -257,9 +257,10 @@ a {
 .section_title .ttl-h3-1 .sankaku:before{
     content:"";
     display: inline-block;
-    width: 50px;
-    height: 50px;
-    background-image: url(../img/sankaku.png);
+    width: 24px;
+    height: 24px;
+    background-image:url(../img/sankaku.png);
+    background-repeat: no-repeat;
     background-size: contain;
     vertical-align: middle;
 }
